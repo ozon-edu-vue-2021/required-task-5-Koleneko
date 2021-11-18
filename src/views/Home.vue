@@ -10,7 +10,7 @@
 
 <script>
 import ProductCard from "@/components/ProductCard";
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Home",
@@ -18,9 +18,7 @@ export default {
     ProductCard,
   },
   computed: {
-    ...mapGetters({
-      products: "getProducts",
-    }),
+    ...mapState({ products: "products" }),
   },
   methods: {},
 };

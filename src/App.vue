@@ -7,12 +7,15 @@
         <router-link to="basket"><BasketIcon /></router-link>
       </div>
     </div>
+    <h2 v-if="products === null">
+      Невозможно связаться с сервером, попробуйте позже
+    </h2>
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import BasketIcon from "@/components/icons/BasketIcon";
 import HeartIcon from "@/components/icons/HeartIcon";
 
@@ -26,6 +29,9 @@ export default {
   components: {
     BasketIcon,
     HeartIcon,
+  },
+  computed: {
+    ...mapState({ products: "products" }),
   },
 };
 </script>

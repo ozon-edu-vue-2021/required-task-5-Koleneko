@@ -50,27 +50,24 @@ export default new Vuex.Store({
   actions: {
     async setProducts(state) {
       const res = {};
-      const products = await fetch(url);
-      const productsJson = await products.json();
-      productsJson.forEach((obj) => {
-        obj.image = imagePaths[(Math.random() * imagePaths.length) | 0];
-        obj.price = Math.floor(Math.random() * 1000);
-        obj.isFavorite = false;
-      });
-      productsJson.forEach((el) => {
-        res[el.uid] = el;
-        res[el.uid].image = imagePaths[(Math.random() * imagePaths.length) | 0];
-        res[el.uid].price = Math.floor(Math.random() * 1000);
-        res[el.uid].isFavorite = false;
-      });
-
-      state.commit("setProducts", res);
+      try {
+        const products = await fetch(url);
+        const productsJson = await products.json();
+        productsJson.forEach((el) => {
+          res[el.uid] = el;
+          res[el.uid].image =
+            imagePaths[(Math.random() * imagePaths.length) | 0];
+          res[el.uid].price = Math.floor(Math.random() * 1000);
+          res[el.uid].isFavorite = false;
+        });
+        state.commit("setProducts", res);
+      } catch (e) {
+        state.commit("setProducts", null);
+        console.warn(e.message);
+      }
     },
   },
   getters: {
-    getProducts: (state) => state.products,
-    getFavorites: (state) => state.favorites,
-    getBasket: (state) => state.basket,
     getTotalPrice: (state) => {
       let sum = 0;
       for (const uid in state.basket) {

@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "basket",
   computed: {
-    ...mapGetters({
-      basketItems: "getBasket",
-      products: "getProducts",
-      totalPrice: "getTotalPrice",
+    ...mapState({
+      basketItems: "basket",
+      products: "products",
     }),
+    ...mapGetters({ totalPrice: "getTotalPrice" }),
   },
   methods: {
     remove(id) {
