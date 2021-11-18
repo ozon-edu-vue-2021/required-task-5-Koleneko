@@ -1,14 +1,37 @@
 <template>
   <div id="app">
+    <div id="nav">
+      <div id="home-link"><router-link to="/">Home</router-link></div>
+      <div id="icons-container">
+        <router-link to="favorite"><HeartIcon> </HeartIcon></router-link>
+        <router-link to="basket"><BasketIcon /></router-link>
+      </div>
+    </div>
+    <h2 v-if="products === null">
+      Невозможно связаться с сервером, попробуйте позже
+    </h2>
+    <router-view />
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+import BasketIcon from "@/components/icons/BasketIcon";
+import HeartIcon from "@/components/icons/HeartIcon";
 
 export default {
-  name: "App",
+  methods: {
+    ...mapActions(["setProducts"]),
+  },
+  mounted() {
+    this.$store.dispatch("setProducts");
+  },
   components: {
-    Form,
+    BasketIcon,
+    HeartIcon,
+  },
+  computed: {
+    ...mapState({ products: "products" }),
   },
 };
 </script>
@@ -16,19 +39,29 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #2c3e50;
-  background-color: #fafafa;
-  padding: 24px;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
-html,
-body,
-#app {
-  height: 100%;
+#nav {
+  display: flex;
+  background: none;
+  padding: 30px 15%;
+  justify-content: space-between;
 }
 
-* {
-  box-sizing: border-box;
+#nav a {
+  font-size: xx-large;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+#icons-container * {
+  margin-left: 5px;
+  min-width: 50px;
 }
 </style>
